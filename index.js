@@ -31,16 +31,11 @@ const getYesterday = () => {
   const YYYY  = yesterday.getFullYear();
   const MM    = (yesterday.getMonth() + 1).toString().padStart(2, '0');
   const DD    = yesterday.getDate().toString().padStart(2, '0');
-  const day   = yesterday.getDay();
 
-  return {
-    yesterday: YYYY + "-" + MM + "-" + DD,
-    day : day
-  }
+  return `${YYYY}-${MM}-${DD}`;
 }
 
-const yesterday = getYesterday().yesterday;
-const day = getYesterday().day;
+const yesterday = getYesterday();
 
 exports.handler = (event, context) => {
   users.forEach((user) => {
@@ -56,10 +51,7 @@ exports.handler = (event, context) => {
       const totalMin  = (total - totalHour) * 60;
       const totalTime = totalHour + ":" + Math.floor(totalMin).toString().padStart(2, '0');;
 
-      if ( total < 7 && day !== 0 && day !== 6 ) {
-          console.log(total, yesterday, day);
-          console.log(`<@${user.slack_id}|${user.name}> Yesterday(${yesterday}), Your Toggl duration time was ${totalTime}.`);
-
+      if ( total < 7  ) {
           axios
           .post( slack_api_url ,{
             text: `<@${user.slack_id}|${user.name}> Yesterday(${yesterday}), Your Toggl duration was ${totalTime}. \n昨日のTogglの入力時間が7時間を下回っています。`
@@ -71,11 +63,7 @@ exports.handler = (event, context) => {
 
     })
     .catch((error) => {
-      console.error(error.response.status);
-      console.error(error.response.statusText);
-      console.error(error.response.config);
-      console.error(error.response.data);
-      console.error("-------");
+      console.log(error);
     });
   })
 }
