@@ -44,7 +44,7 @@ exports.handler = (event, context) => {
     const toggl_api_url = toggl_base_url + `?user_agent=${params.user_agent}&workspace_id=${params.workspace_id}&since=${params.yesterday}&user_ids=${params.user_ids}`;
 
     axios
-    .get( toggl_api_url , { headers: { Authorization: `Basic ${toggl_api_key}`}})
+    .get( toggl_api_url , { auth: { username: toggl_api_key, password: 'api_token' }})
     .then((response) => {
       const total = response.data.week_totals[Array.length - 1] / 3600 / 1000;
       const totalHour = Math.floor(total);
