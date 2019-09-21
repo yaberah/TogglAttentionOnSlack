@@ -14,6 +14,7 @@ const user_agent      = process.env.USER_AGENT;
 const workspace_id    = process.env.WORKSPACE_ID;
 const slack_api_url   = process.env.SLACK_API_URL;
 const user_list       = process.env.USER_LIST;
+const threthold_time  = process.env.THRETHOLD_TIME;
 
 const users = user_list.split('$').map((user) => {
   return {
@@ -51,10 +52,10 @@ exports.handler = (event, context) => {
       const totalMin  = (total - totalHour) * 60;
       const totalTime = totalHour + ":" + Math.floor(totalMin).toString().padStart(2, '0');;
 
-      if ( total < 7  ) {
+      if ( total < threthold_time  ) {
           axios
           .post( slack_api_url ,{
-            text: `<@${user.slack_id}|${user.name}> Yesterday(${yesterday}), Your Toggl duration was ${totalTime}. \n昨日のTogglの入力時間が7時間を下回っています。`
+            text: `<@${user.slack_id}|${user.name}> Yesterday(${yesterday}), Your Toggl duration was ${totalTime}. \n昨日のTogglの入力時間が${threthold_time}時間を下回っています。`
           })
           .catch((error)=>{
             console.log("Failure posting to slack.");
