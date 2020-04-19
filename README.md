@@ -2,7 +2,7 @@
 Slack bot which send message if user's Toggl duration is shorter than any time. This node.js code is supposed to be deployed in AWS Lambda with environment variables. This repository is a set of code which work in local environment. The code supposed to be deployed is only ```index.js```. Please copy the code on the AWS Lambda console. 
 <img src="https://github.com/yaberah/TogglAttentionOnSlack/blob/images/image1.png" width="500px" alt="ExpamleImage">
 
-## How to use
+## How to  use
 ``` 
 1. Open index.js and copy all codes.
 2. Paste the code on AWS Lambda function console.
